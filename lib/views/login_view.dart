@@ -1,7 +1,8 @@
+import 'package:chat_app/blocs/auth_bloc/auth_bloc.dart';
+import 'package:chat_app/blocs/auth_bloc/auth_event.dart';
+import 'package:chat_app/blocs/auth_bloc/auth_state.dart';
 import 'package:chat_app/constants.dart';
 import 'package:chat_app/cubits/chat_cubit/chat_cubit.dart';
-import 'package:chat_app/cubits/login_cubit/login_cubit.dart';
-import 'package:chat_app/cubits/login_cubit/login_state.dart';
 import 'package:chat_app/helper/show_snack_bar.dart';
 import 'package:chat_app/views/chat_view.dart';
 import 'package:chat_app/views/register_view.dart';
@@ -30,7 +31,7 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<LoginCubit, LoginState>(
+    return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is LoginLoading) {
           isLoading = true;
@@ -113,7 +114,7 @@ class _LoginViewState extends State<LoginView> {
                   CustomButton(
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
-                        BlocProvider.of<LoginCubit>(context).loginUser(email: email!, password: password!);
+                        BlocProvider.of<AuthBloc>(context).add(LoginEvent(email: email!, password: password!));
                       } else {}
                     },
                     text: 'Sign In',
